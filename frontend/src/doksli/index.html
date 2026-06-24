@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Live Color Picker Pro</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-wrapper">
+        <!-- Main Viewport -->
+        <main class="viewport-container">
+            <video id="camera-video" autoplay playsinline muted></video>
+            <canvas id="camera-canvas"></canvas>
+            
+            <div class="viewport-overlay">
+                <div class="scanner-line"></div>
+                <div class="reticle-container">
+                    <div class="reticle-pulse"></div>
+                    <div class="reticle-circle"></div>
+                </div>
+            </div>
+
+            <!-- Initial Loading / Error State -->
+            <div id="status-overlay" class="status-overlay">
+                <h3>Menginisialisasi Kamera...</h3>
+                <p>Harap berikan izin akses kamera untuk memulai.</p>
+            </div>
+        </main>
+
+        <!-- Sidebar Control Panel -->
+        <aside class="sidebar">
+            <header class="header">
+                <h1>Live Color Picker</h1>
+                <p>Analisis warna real-time</p>
+            </header>
+
+            <div class="color-display-card">
+                <div class="color-name-wrapper">
+                    <div id="active-preview" class="active-preview"></div>
+                    <div class="color-title">
+                        <h2 id="color-name">Detecting...</h2>
+                        <span id="hex-value">#000000</span>
+                    </div>
+                </div>
+
+                <div class="format-grid">
+                    <div class="format-item">
+                        <span class="format-label">RGB</span>
+                        <span id="rgb-value" class="format-value">rgb(0, 0, 0)</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="format-label">HSL</span>
+                        <span id="hsl-value" class="format-value">0°, 0%, 0%</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="format-label">HSV</span>
+                        <span id="hsv-value" class="format-value">0°, 0%, 0%</span>
+                    </div>
+                    <div class="format-item">
+                        <span class="format-label">CMYK</span>
+                        <span id="cmyk-value" class="format-value">0%, 0%, 0%, 0%</span>
+                    </div>
+                </div>
+
+                <div class="history-section">
+                    <h3>Riwayat</h3>
+                    <div id="history-list" class="history-list">
+                        <!-- History dots populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="actions-container">
+                <button id="btn-switch" class="btn btn-secondary">Ganti Kamera</button>
+                <button id="btn-copy" class="btn btn-secondary">Salin HEX</button>
+                <button id="btn-freeze" class="btn btn-primary">BEKUKAN VIEW</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="toast" class="toast">Warna disalin ke papan klip!</div>
+
+    <script src="ntc.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
