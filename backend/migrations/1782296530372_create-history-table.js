@@ -11,18 +11,22 @@ export const shorthands = undefined;
 export const up = (pgm) => {
   pgm.createTable("history", {
     id: "id",
-    userId: {
+    user_id: {
       type: "VARCHAR(50)",
       notNull: true,
       references: "users",
       onDelete: "CASCADE",
     },
-    colorName: { type: "varchar(50)", notNull: true },
-    hex: { type: "varchar(50)", notNull: true },
-    rgb: { type: "varchar(50)", notNull: true },
-    hsl: { type: "varchar(50)", notNull: true },
-    hsv: { type: "varchar(50)", notNull: true },
-    timestamp: { type: "timestamp", notNull: true },
+    color_name: { type: "VARCHAR(100)", notNull: true },
+    hex: { type: "VARCHAR(20)", notNull: true },
+    rgb: { type: "VARCHAR(50)", notNull: true },
+    hsl: { type: "VARCHAR(50)", notNull: true },
+    hsv: { type: "VARCHAR(50)", notNull: true },
+    created_at: {
+      type: "TIMESTAMPTZ",
+      notNull: true,
+      default: pgm.func("current_timestamp"),
+    },
   });
 };
 

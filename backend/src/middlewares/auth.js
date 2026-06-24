@@ -1,19 +1,33 @@
 import TokenManager from '../security/token-manager.js';
-import response from '../utils/response.js';
+import { AuthorizationError, AuthenticationError } from '../exceptions/index.js';
 
-async function authenticateToken(req, res, next) {
-  const token = req.headers.authorization;
-  if (token && token.indexOf('Bearer ') !== -1) {
-    try {
-      const user = await TokenManager.verify(token.split('Bearer ')[1], process.env.ACCESS_TOKEN_KEY);
-      req.user = user;
-      return next();
-    } catch (error) {
-      return response(res, 401, error.message, null);
-    }
+/**
+ * Middleware: verifikasi access token dari header Authorization
+ */
+export const authenticate = (req, res, next) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return next(new AuthenticationError('Token tidak ditemukan'));
   }
 
-  return response(res, 401, 'Unauthorized', null);
+  const token = authHeader.split('Bearer ')[1];
+
+  try {
+    const payload = TokenManager.verifyAccessToken(token);
+    req.user = payload;
+    return next();
+  } catch (error) {
+    return next(error);
+  }
 };
 
-export default authenticateToken;
+/**
+ * Middleware: hanya izinkan role admin
+ */
+export const authorizeAdmin = (req, res, next) => {
+  if (!req.user || req.user.role !== 'admin') {
+    return next(new AuthorizationError('Akses ditolak: hanya admin yang diizinkan'));
+  }
+  return next();
+};
